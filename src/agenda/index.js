@@ -53,6 +53,8 @@ export default class AgendaView extends Component {
     renderEmptyDay: PropTypes.func,
     /** specify what should be rendered instead of ActivityIndicator */
     renderEmptyData: PropTypes.func,
+    /** specify how reservations should be rendered */
+    renderReservations: PropTypes.func,
     /** specify your item comparison function for increased performance */
     rowHasChanged: PropTypes.func,
     /** Max amount of months allowed to scroll to the past. Default = 50 */
@@ -303,27 +305,29 @@ export default class AgendaView extends Component {
 
   renderReservations() {
     return (
-      <ReservationsList
-        onScrollBeginDrag={this.props.onScrollBeginDrag}
-        onScrollEndDrag={this.props.onScrollEndDrag}
-        onMomentumScrollBegin={this.props.onMomentumScrollBegin}
-        onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-        refreshControl={this.props.refreshControl}
-        refreshing={this.props.refreshing}
-        onRefresh={this.props.onRefresh}
-        rowHasChanged={this.props.rowHasChanged}
-        renderItem={this.props.renderItem}
-        renderDay={this.props.renderDay}
-        renderEmptyDate={this.props.renderEmptyDate}
-        reservations={this.props.items}
-        selectedDay={this.state.selectedDay}
-        renderEmptyData={this.props.renderEmptyData}
-        topDay={this.state.topDay}
-        onDayChange={this.onDayChange.bind(this)}
-        onScroll={() => {}}
-        ref={(c) => (this.list = c)}
-        theme={this.props.theme}
-      />
+      this.props.renderReservations ?? (
+        <ReservationsList
+          onScrollBeginDrag={this.props.onScrollBeginDrag}
+          onScrollEndDrag={this.props.onScrollEndDrag}
+          onMomentumScrollBegin={this.props.onMomentumScrollBegin}
+          onMomentumScrollEnd={this.props.onMomentumScrollEnd}
+          refreshControl={this.props.refreshControl}
+          refreshing={this.props.refreshing}
+          onRefresh={this.props.onRefresh}
+          rowHasChanged={this.props.rowHasChanged}
+          renderItem={this.props.renderItem}
+          renderDay={this.props.renderDay}
+          renderEmptyDate={this.props.renderEmptyDate}
+          reservations={this.props.items}
+          selectedDay={this.state.selectedDay}
+          renderEmptyData={this.props.renderEmptyData}
+          topDay={this.state.topDay}
+          onDayChange={this.onDayChange.bind(this)}
+          onScroll={() => {}}
+          ref={(c) => (this.list = c)}
+          theme={this.props.theme}
+        />
+      )
     );
   }
 
@@ -447,9 +451,9 @@ export default class AgendaView extends Component {
         testID={this.props.testID}
         onLayout={this.onLayout}
         style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
-        {/* <View style={this.styles.reservations}>
+        <View style={this.styles.reservations}>
           {this.renderReservations()}
-        </View> */}
+        </View>
         <Animated.View style={headerStyle}>
           <Animated.View
             style={{flex: 1, transform: [{translateY: contentTranslate}]}}>
