@@ -353,7 +353,9 @@ export interface CalendarListBaseProps extends CalendarBaseProps {
 
 export class CalendarList extends React.Component<
   CalendarMarkingProps & CalendarListBaseProps
-> {}
+> {
+  scrollToDay(date: string, offset: number, animated: boolean);
+}
 
 export interface AgendaThemeStyle extends CalendarTheme {
   agendaDayNumColor?: string;
@@ -367,6 +369,8 @@ export interface AgendaItemsMap<TItem> {
 }
 
 export interface AgendaProps<TItem> {
+  calendarRef: Ref<CalendarList>;
+
   /**
    *  Display loading indicator. Default = false
    */
@@ -506,4 +510,6 @@ export interface AgendaProps<TItem> {
 }
 export class Agenda<TItem> extends React.Component<
   AgendaProps<TItem> & CalendarMarkingProps
-> {}
+> {
+  scrollToDay(day: date, offset: number = 0, withAnimation: boolean = true);
+}

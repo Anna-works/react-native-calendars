@@ -12,7 +12,7 @@ import {VelocityTracker} from '../input';
 import {AGENDA_CALENDAR_KNOB} from '../testIDs';
 
 const HEADER_HEIGHT = 104;
-const KNOB_HEIGHT = 24;
+const KNOB_HEIGHT = 28;
 // Fallback when RN version is < 0.44
 const viewPropTypes = ViewPropTypes || View.propTypes;
 
@@ -246,6 +246,14 @@ export default class AgendaView extends Component {
     }
   }
 
+  scrollToDay(day, additionalOffset = 0, withAnimation = true) {
+    this.calendar.scrollToDay(
+      day,
+      this.calendarOffset() + additionalOffset,
+      withAnimation,
+    );
+  }
+
   enableCalendarScrolling() {
     this.setState({
       calendarScrollable: true,
@@ -262,11 +270,7 @@ export default class AgendaView extends Component {
     // in CalendarList listView, but that might impact performance when scrolling
     // month list in expanded CalendarList.
     // Further info https://github.com/facebook/react-native/issues/1831
-    this.calendar.scrollToDay(
-      this.state.selectedDay,
-      this.calendarOffset() + 1,
-      true,
-    );
+    this.scrollToDay(this.state.selectedDay, 1);
   }
 
   _chooseDayFromCalendar(d) {
@@ -292,7 +296,7 @@ export default class AgendaView extends Component {
     }
 
     this.setScrollPadPosition(this.initialScrollPadPosition(), true);
-    this.calendar.scrollToDay(day, this.calendarOffset(), true);
+    this.scrollToDay(day);
 
     if (this.props.loadItemsForMonth) {
       this.props.loadItemsForMonth(xdateToData(day));
@@ -337,7 +341,7 @@ export default class AgendaView extends Component {
     const newDate = parseDate(day);
     const withAnimation = dateutils.sameMonth(newDate, this.state.selectedDay);
 
-    this.calendar.scrollToDay(day, this.calendarOffset(), withAnimation);
+    this.scrollToDay(day, 0, withAnimation);
     this.setState({
       selectedDay: parseDate(day),
     });
@@ -424,10 +428,10 @@ export default class AgendaView extends Component {
 
     const scrollPadStyle = {
       position: 'absolute',
-      width: 80,
+      width: '100%',
       height: KNOB_HEIGHT,
       top: scrollPadPosition,
-      left: (this.viewWidth - 80) / 2,
+      // left: (this.viewWidth - 80) / 2,
     };
 
     let knob = <View style={this.styles.knobContainer} />;
@@ -461,16 +465,15 @@ export default class AgendaView extends Component {
             style={{flex: 1, transform: [{translateY: contentTranslate}]}}>
             <CalendarList
               onLayout={() => {
-                this.calendar.scrollToDay(
-                  this.state.selectedDay.clone(),
-                  this.calendarOffset(),
-                  false,
-                );
+                this.scrollToDay(this.state.selectedDay.clone(), 0, false);
               }}
               calendarWidth={this.viewWidth}
               theme={this.props.theme}
               onVisibleMonthsChange={this.onVisibleMonthsChange.bind(this)}
-              ref={(c) => (this.calendar = c)}
+              ref={(c) => {
+                this.calendar = c;
+                this.props.calendarRef.current = c;
+              }}
               minDate={this.props.minDate}
               maxDate={this.props.maxDate}
               current={this.currentMonth}
@@ -527,7 +530,7 @@ export default class AgendaView extends Component {
           )}>
           <View
             testID={AGENDA_CALENDAR_KNOB}
-            style={{height: agendaHeight + KNOB_HEIGHT}}
+            style={{width: '100%', height: agendaHeight + KNOB_HEIGHT}}
             onLayout={this.onScrollPadLayout}
           />
         </Animated.ScrollView>
