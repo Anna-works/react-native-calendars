@@ -462,19 +462,21 @@ export interface AgendaProps<TItem> {
   renderEmptyData?: () => React.ReactNode;
 
   /**
+   *  * Needs to be specified if renderReservations is not provided.
    *  Specify how empty date content with no items should be rendered.
    */
-  renderEmptyDate: () => React.ReactNode;
+  renderEmptyDate?: () => React.ReactNode;
 
   /**
    *  Specify how reservations should be rendered.
    */
-  renderReservations: () => React.ReactNode;
+  renderReservations?: () => React.ReactNode;
 
   /**
+   *  * Needs to be specified if renderReservations is not provided.
    *  Specify how each item should be rendered in agenda.
    */
-  renderItem: (item: TItem, firstDayInDay: boolean) => React.ReactNode;
+  renderItem?: (item: TItem, firstDayInDay: boolean) => React.ReactNode;
 
   /**
    *  Specify how agenda knob should look like.
@@ -482,9 +484,10 @@ export interface AgendaProps<TItem> {
   renderKnob?: () => React.ReactNode;
 
   /**
+   * * Needs to be specified if renderReservations is not provided.
    * specify your item comparison function for increased performance
    */
-  rowHasChanged: (r1: TItem, r2: TItem) => boolean;
+  rowHasChanged?: (r1: TItem, r2: TItem) => boolean;
 
   /**
    *  Initially visible month. Default = Date()
