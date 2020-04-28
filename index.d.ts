@@ -467,6 +467,11 @@ export interface AgendaProps<TItem> {
   renderEmptyDate: () => React.ReactNode;
 
   /**
+   *  Specify how reservations should be rendered.
+   */
+  renderReservations: () => React.ReactNode;
+
+  /**
    *  Specify how each item should be rendered in agenda.
    */
   renderItem: (item: TItem, firstDayInDay: boolean) => React.ReactNode;
