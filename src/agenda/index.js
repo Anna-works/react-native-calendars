@@ -73,7 +73,7 @@ export default class AgendaView extends Component {
     markedDates: PropTypes.object,
     /** Optional marking type if custom markedDates are provided */
     markingType:
-      PropTypes.string /* 
+      PropTypes.string /*
     /** Hide knob button. Default = false */,
     hideKnob: PropTypes.bool,
     /** Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting */
@@ -304,30 +304,32 @@ export default class AgendaView extends Component {
   }
 
   renderReservations() {
+    if (this.props.renderReservations) {
+      return this.props.renderReservations();
+    }
+
     return (
-      this.props.renderReservations ?? (
-        <ReservationsList
-          onScrollBeginDrag={this.props.onScrollBeginDrag}
-          onScrollEndDrag={this.props.onScrollEndDrag}
-          onMomentumScrollBegin={this.props.onMomentumScrollBegin}
-          onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-          refreshControl={this.props.refreshControl}
-          refreshing={this.props.refreshing}
-          onRefresh={this.props.onRefresh}
-          rowHasChanged={this.props.rowHasChanged}
-          renderItem={this.props.renderItem}
-          renderDay={this.props.renderDay}
-          renderEmptyDate={this.props.renderEmptyDate}
-          reservations={this.props.items}
-          selectedDay={this.state.selectedDay}
-          renderEmptyData={this.props.renderEmptyData}
-          topDay={this.state.topDay}
-          onDayChange={this.onDayChange.bind(this)}
-          onScroll={() => {}}
-          ref={(c) => (this.list = c)}
-          theme={this.props.theme}
-        />
-      )
+      <ReservationsList
+        onScrollBeginDrag={this.props.onScrollBeginDrag}
+        onScrollEndDrag={this.props.onScrollEndDrag}
+        onMomentumScrollBegin={this.props.onMomentumScrollBegin}
+        onMomentumScrollEnd={this.props.onMomentumScrollEnd}
+        refreshControl={this.props.refreshControl}
+        refreshing={this.props.refreshing}
+        onRefresh={this.props.onRefresh}
+        rowHasChanged={this.props.rowHasChanged}
+        renderItem={this.props.renderItem}
+        renderDay={this.props.renderDay}
+        renderEmptyDate={this.props.renderEmptyDate}
+        reservations={this.props.items}
+        selectedDay={this.state.selectedDay}
+        renderEmptyData={this.props.renderEmptyData}
+        topDay={this.state.topDay}
+        onDayChange={this.onDayChange.bind(this)}
+        onScroll={() => {}}
+        ref={(c) => (this.list = c)}
+        theme={this.props.theme}
+      />
     );
   }
 
