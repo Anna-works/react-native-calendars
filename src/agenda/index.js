@@ -248,7 +248,7 @@ export default class AgendaView extends Component {
 
   selectDay(day) {
     this.setState({
-      selectedDay: day,
+      selectedDay: parseDate(day),
     });
   }
 
