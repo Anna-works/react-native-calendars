@@ -246,6 +246,12 @@ export default class AgendaView extends Component {
     }
   }
 
+  selectDay(day) {
+    this.setState({
+      selectedDay: day,
+    });
+  }
+
   scrollToDay(day, additionalOffset = 0, withAnimation = true) {
     this.calendar.scrollToDay(
       day,

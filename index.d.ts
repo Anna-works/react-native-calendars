@@ -511,5 +511,6 @@ export interface AgendaProps<TItem> {
 export class Agenda<TItem> extends React.Component<
   AgendaProps<TItem> & CalendarMarkingProps
 > {
-  scrollToDay(day: date, offset: number = 0, withAnimation: boolean = true);
+  selectDay(day: string);
+  scrollToDay(day: string, offset: number = 0, withAnimation: boolean = true);
 }
